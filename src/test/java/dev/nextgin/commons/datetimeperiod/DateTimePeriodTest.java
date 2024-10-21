@@ -1,4 +1,4 @@
-package nextgin.commons.datetimeperiod;
+package dev.nextgin.commons.datetimeperiod;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;

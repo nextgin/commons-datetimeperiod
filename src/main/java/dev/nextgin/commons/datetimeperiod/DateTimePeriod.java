@@ -1,4 +1,4 @@
-package nextgin.commons.datetimeperiod;
+package dev.nextgin.commons.datetimeperiod;
 
 import java.io.Serializable;
 import java.time.Duration;

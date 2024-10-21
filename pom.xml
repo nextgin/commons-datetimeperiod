@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>nextgin.commons</groupId>
+  <groupId>dev.nextgin.commons</groupId>
   <artifactId>datetimeperiod</artifactId>
   <version>0.1.0</version>
   <packaging>jar</packaging>
   <name>datetimeperiod</name>
   <description>Complex date time period comparisons</description>
-  <url/>
+  <url>https://github.com/nextgin/commons-datetimeperiod</url>
   <licenses>
-    <license/>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
   </licenses>
   <developers>
-    <developer/>
+    <developer>
+      <name>OTHMANE OUTAMA</name>
+      <email>contact@nextgin.dev</email>
+      <organization>Nextgin</organization>
+      <organizationUrl>https://www.nextgin.dev</organizationUrl>
+    </developer>
   </developers>
   <scm>
-    <connection/>
-    <developerConnection/>
-    <tag/>
-    <url/>
+    <connection>scm:git:git://github.com/nextgin/commons-datetimeperiod.git</connection>
+    <developerConnection>scm:git:ssh://github.com:nextgin/commons-datetimeperiod.git</developerConnection>
+    <url>https://github.com/nextgin/commons-datetimeperiod/tree/main</url>
   </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
