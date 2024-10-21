@@ -11,12 +11,12 @@
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <url>https://opensource.org/license/mit</url>
     </license>
   </licenses>
   <developers>
     <developer>
-      <name>OTHMANE OUTAMA</name>
+      <name>Othmane OUTAMA</name>
       <email>contact@nextgin.dev</email>
       <organization>Nextgin</organization>
       <organizationUrl>https://www.nextgin.dev</organizationUrl>
