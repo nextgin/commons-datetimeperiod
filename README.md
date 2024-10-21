@@ -19,7 +19,7 @@ You can pull the dependency from the central Maven repositories:
 ```xml
 
 <dependency>
-  <groupId>nextgin.commons</groupId>
+  <groupId>dev.nextgin.commons</groupId>
   <artifactId>datetimeperiod</artifactId>
   <version>0.1.0</version>
 </dependency>
