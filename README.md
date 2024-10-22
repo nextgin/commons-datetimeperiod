@@ -353,6 +353,22 @@ DateTimePeriodCollection result = a.overlapAll(b, c);
 // result represents [[2024-01-10, 2024-01-20], [2024-01-25, 2024-01-28]]
 ```
 
+### `DateTimePeriod boundaries()`
+
+Calculates the boundary period that encompasses all periods in this collection.
+
+![](./docs/images/collection-boundaries.svg)
+
+```java
+ DateTimePeriodCollection current = DateTimePeriodCollection.of(
+        DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 31)),
+        DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 20)),
+        DateTimePeriod.make(LocalDate.of(2024, 3, 1), LocalDate.of(2024, 3, 31)));
+
+DateTimePeriod boundaries = a.boundaries();
+// boundaries represents [2024-01-01, 2024-03-31]
+```
+
 ### Testing
 
 ```bash

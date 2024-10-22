@@ -2,6 +2,7 @@ package dev.nextgin.commons.datetimeperiod;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -85,6 +86,32 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
             }
         }
         return overlaps;
+    }
+
+    /**
+     * Calculates the boundary period that encompasses all periods in this collection.
+     *
+     * @return A DateTimePeriod representing the earliest start time and latest end time of all
+     * periods in the collection. If the collection is empty, returns null.
+     */
+    @Nullable public DateTimePeriod boundaries() {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        for (DateTimePeriod period : this.data) {
+            if (start == null || start.isAfter(period.start())) {
+                start = period.start();
+            }
+
+            if (end == null || period.end().isAfter(end)) {
+                end = period.end();
+            }
+        }
+
+        if (start == null || end == null) {
+            return null;
+        }
+
+        return DateTimePeriod.make(start, end, this.data.get(0).precision());
     }
 
     /**

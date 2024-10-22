@@ -51,6 +51,23 @@ class DateTimePeriodTest {
         assertThat(result).isEqualTo(Duration.ofDays(4));
     }
 
+    @Test
+    void toString_shouldContainsStartAndEnd() {
+        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
+                        .toString())
+                .isEqualTo("[2024-01-10T00:00, 2024-01-15T00:00]");
+    }
+
+    @Test
+    void equals_shouldReturnFalse_whenTypeIsMismatchedOrElementIsNull() {
+        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
+                        .equals(null))
+                .isFalse();
+        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
+                        .equals("null"))
+                .isFalse();
+    }
+
     @Nested
     class Contains {
 
@@ -391,22 +408,5 @@ class DateTimePeriodTest {
             // Then
             assertThat(result).isEmpty();
         }
-    }
-
-    @Test
-    void toString_shouldContainsStartAndEnd() {
-        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
-                        .toString())
-                .isEqualTo("[2024-01-10T00:00, 2024-01-15T00:00]");
-    }
-
-    @Test
-    void equals_shouldReturnFalse_whenTypeIsMismatchedOrElementIsNull() {
-        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
-                        .equals(null))
-                .isFalse();
-        assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
-                        .equals("null"))
-                .isFalse();
     }
 }

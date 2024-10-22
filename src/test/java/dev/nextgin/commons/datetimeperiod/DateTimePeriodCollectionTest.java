@@ -1,7 +1,6 @@
 package dev.nextgin.commons.datetimeperiod;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
@@ -84,6 +83,38 @@ class DateTimePeriodCollectionTest {
                     .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 6), LocalDate.of(2024, 1, 7)));
             assertThat(result.get(1))
                     .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 20)));
+        }
+    }
+
+    @Nested
+    class Boundaries {
+
+        @Test
+        void shouldDetermineBoundariesOfACollection() {
+            // Given
+            DateTimePeriodCollection current = DateTimePeriodCollection.of(
+                    DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 31)),
+                    DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 20)),
+                    DateTimePeriod.make(LocalDate.of(2024, 3, 1), LocalDate.of(2024, 3, 31)));
+
+            // When
+            DateTimePeriod result = current.boundaries();
+
+            // Then
+            assertThat(result).isNotNull();
+            assertThat(result).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 3, 31)));
+        }
+
+        @Test
+        void givenEmptyCollection_shouldReturnNull() {
+            // Given
+            DateTimePeriodCollection current = DateTimePeriodCollection.of();
+
+            // When
+            DateTimePeriod result = current.boundaries();
+
+            // Then
+            assertThat(result).isNull();
         }
     }
 }
