@@ -27,7 +27,7 @@ You can pull the dependency from the central Maven repositories:
 
 ## Usage
 
-### Creating periods
+### Creating periods (`DateTimePeriod::make`)
 
 Create period with specific date-times and precision:
 
@@ -58,28 +58,9 @@ DateTimePeriod period = DateTimePeriod.make(
 );
 ```
 
-### Gap between two periods
-
-![](./docs/images/period-gap.svg)
-
-```java
-DateTimePeriod period1 = DateTimePeriod.make(
-        LocalDate.parse("2024-01-01"),
-        LocalDate.parse("2024-01-05")
-);
-
-DateTimePeriod period2 = DateTimePeriod.make(
-        LocalDate.parse("2024-01-10"),
-        LocalDate.parse("2024-01-31")
-);
-
-DateTimePeriod gap = period1.gapTo(period2);
-// gap represents [2024-01-06T00:00, 2024-01-09T00:00]
-```
-
 ### Operations
 
-#### Checking overlaps
+#### Checking overlaps (`DateTimePeriod::overlapsWith`)
 
 Check if two periods overlap:
 
@@ -97,7 +78,7 @@ DateTimePeriod midday = DateTimePeriod.make(
 boolean overlaps = morning.overlapsWith(midday); // returns true
 ```
 
-#### Checking adjacent periods
+#### Checking adjacent periods (`DateTimePeriod::touchesWith`)
 
 Check if two periods touch. two periods touch if the end of one period is exactly the start of the
 other.
@@ -144,7 +125,7 @@ DateTimePeriod period2 = DateTimePeriod.make(
 boolean touches = period1.touchesWith(period2); // returns false
 ```
 
-#### Renew
+#### Renew (`DateTimePeriod::renew`)
 
 ![](./docs/images/period-renew.svg)
 
@@ -161,7 +142,7 @@ DateTimePeriod renew = period.renew();
 // renew represents [2024-01-06T00:00, 2024-01-10T00:00]
 ```
 
-#### Checking time containment
+#### Checking time containment (`DateTimePeriod::contains`)
 
 Check if a period contains a specified point in time.
 
@@ -178,7 +159,7 @@ LocalDateTime evening = LocalDateTime.of(2024, 1, 1, 19, 0);
 boolean containsEvening = workday.contains(evening); // returns false
 ```
 
-#### Checking period containment
+#### Checking period containment (`DateTimePeriod::contains`)
 
 Checks if a period fully contains another period.
 
@@ -200,6 +181,44 @@ DateTimePeriod evening = DateTimePeriod.make(
         LocalDateTime.of(2024, 1, 1, 22, 0)
 );
 boolean containsEvening = workday.contains(evening); // returns false
+```
+
+### Gap between two periods (`DateTimePeriod::gap`)
+
+![](./docs/images/period-gap.svg)
+
+```java
+DateTimePeriod period1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-05")
+);
+
+DateTimePeriod period2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-10"),
+        LocalDate.parse("2024-01-31")
+);
+
+DateTimePeriod gap = period1.gap(period2);
+// gap represents [2024-01-06T00:00, 2024-01-09T00:00]
+```
+
+### Overlap between two periods (`DateTimePeriod::overlap`)
+
+![](./docs/images/period-overlap.svg)
+
+```java
+DateTimePeriod period1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-05"),
+        LocalDate.parse("2024-01-20")
+);
+
+DateTimePeriod period2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-15")
+);
+
+DateTimePeriod overlap = period1.overlap(period2);
+// overlap represents [2024-01-05T00:00, 2024-01-15T00:00]
 ```
 
 ### Testing

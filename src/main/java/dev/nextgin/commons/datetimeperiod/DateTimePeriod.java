@@ -161,6 +161,26 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     }
 
     /**
+     * Returns a period that overlap with the given period and this period.
+     *
+     * @param period to check for overlap
+     * @return A new period representing the overlapping time, or null if there's no overlap
+     * @throws DateTimePeriodException if precision does not match
+     */
+    @Nullable public DateTimePeriod overlap(DateTimePeriod period) {
+        this.ensurePrecisionMatches(period);
+
+        LocalDateTime start = this.start().isAfter(period.start()) ? this.start() : period.start();
+        LocalDateTime end = period.end().isAfter(this.end()) ? this.end() : period.end();
+
+        if (start.isAfter(end)) {
+            return null;
+        }
+
+        return DateTimePeriod.make(start, end, this.precision());
+    }
+
+    /**
      * Checks if this period contains the specified point in time.
      *
      * @param localDateTime The LocalDateTime to check
