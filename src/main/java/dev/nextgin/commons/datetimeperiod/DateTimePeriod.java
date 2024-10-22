@@ -256,7 +256,7 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
     }
 
     /**
-     * Subtracts all given periods from this period, returning a new collection containing the
+     * Subtracts all given periods from this period, returning a collection containing the
      * remaining non-overlapping periods.
      *
      * @param periods to be subtracted
