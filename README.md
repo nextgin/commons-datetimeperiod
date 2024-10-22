@@ -360,7 +360,7 @@ Calculates the boundary period that encompasses all periods in the collection.
 ![](./docs/images/collection-boundaries.svg)
 
 ```java
- DateTimePeriodCollection current = DateTimePeriodCollection.of(
+DateTimePeriodCollection current = DateTimePeriodCollection.of(
         DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 31)),
         DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 20)),
         DateTimePeriod.make(LocalDate.of(2024, 3, 1), LocalDate.of(2024, 3, 31)));
