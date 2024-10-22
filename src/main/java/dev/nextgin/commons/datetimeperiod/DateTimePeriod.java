@@ -1,5 +1,6 @@
 package dev.nextgin.commons.datetimeperiod;
 
+import jakarta.annotation.Nullable;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -25,14 +26,45 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
         this.duration = Duration.between(start, end);
     }
 
+    /**
+     * Creates a period instance representing a time period between two dates with DAY
+     * precision. This method converts the LocalDate parameters to LocalDateTime using start of day
+     * (00:00:00) for both dates.
+     *
+     * @param start The starting date of the period. Must not be null.
+     * @param end   The ending date of the period. Must not be null.
+     * @return A new period instance representing the period between start and end dates
+     * with day-level precision
+     * @see #make(LocalDateTime, LocalDateTime, Precision)
+     */
     public static DateTimePeriod make(LocalDate start, LocalDate end) {
         return make(start.atStartOfDay(), end.atStartOfDay(), Precision.DAY);
     }
 
+    /**
+     * Creates a period instance representing a time period between two dates with SECOND
+     * precision. This is a convenience method that calls
+     * {@link #make(LocalDateTime, LocalDateTime, Precision)} with {@link Precision#SECOND} as the
+     * default precision.
+     *
+     * @param start The starting date and time of the period. Must not be null.
+     * @param end   The ending date and time of the period. Must not be null.
+     * @return A new period instance representing the period between start and end dates
+     * @see #make(LocalDateTime, LocalDateTime, Precision)
+     */
     public static DateTimePeriod make(LocalDateTime start, LocalDateTime end) {
         return make(start, end, Precision.SECOND);
     }
 
+    /**
+     * Creates a period instance representing a time period between two dates with specified
+     * precision.
+     *
+     * @param start     The starting date and time of the period.
+     * @param end       The ending date and time of the period.
+     * @param precision The precision level for the period calculation (e.g., DAY, HOUR, MINUTE).
+     * @return A new period instance representing the period between start and end dates
+     */
     public static DateTimePeriod make(LocalDateTime start, LocalDateTime end, Precision precision) {
         return new DateTimePeriod(precision.round(start), precision.round(end), precision);
     }
@@ -42,6 +74,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      *
      * @param period The DateTimePeriod to check for overlap
      * @return true if this period overlaps with the given period, false otherwise
+     * @throws DateTimePeriodException if precision does not match
      */
     public boolean overlapsWith(DateTimePeriod period) {
         this.ensurePrecisionMatches(period);
@@ -62,6 +95,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      * this period.
      *
      * @return A new period with the same duration, starting from the end of this period.
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriod renew() {
         long diff = this.duration().toMillis();
@@ -76,6 +110,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      *
      * @param period The period to check for touching
      * @return true if this period touches the specified period without overlapping, false otherwise
+     * @throws DateTimePeriodException if precision does not match
      */
     public boolean touchesWith(DateTimePeriod period) {
         this.ensurePrecisionMatches(period);
@@ -91,6 +126,38 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
         }
 
         return false;
+    }
+
+    /**
+     * Calculates the gap between this period and the specified period.
+     *
+     * @param period The period to calculate the gap with
+     * @return A new period representing the gap between the two periods, or null if the periods
+     * overlap or touch
+     * @throws DateTimePeriodException if precision does not match
+     */
+    @Nullable public DateTimePeriod gap(DateTimePeriod period) {
+        this.ensurePrecisionMatches(period);
+
+        if (this.overlapsWith(period)) {
+            return null;
+        }
+
+        if (this.touchesWith(period)) {
+            return null;
+        }
+
+        if (!this.start().isBefore(period.end())) {
+            return make(
+                    period.end().plus(this.precision().interval()),
+                    this.start().minus(this.precision().interval()),
+                    this.precision());
+        }
+
+        return make(
+                this.end().plus(this.precision().interval()),
+                period.start().minus(this.precision().interval()),
+                this.precision());
     }
 
     /**

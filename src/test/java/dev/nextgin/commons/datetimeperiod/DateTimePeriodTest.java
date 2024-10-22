@@ -231,6 +231,62 @@ class DateTimePeriodTest {
         }
     }
 
+    @Nested
+    class Gap {
+
+        @Test
+        void shouldDetermineGapBetweenTwoPeriods() {
+            // Given
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.gap(period);
+
+            // Then
+            assertThat(result).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 11), LocalDate.of(2024, 1, 14)));
+        }
+
+        @Test
+        void shouldDetermineGapBetweenTwoPeriodsInReverseOrder() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.gap(period);
+
+            // Then
+            assertThat(result).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 11), LocalDate.of(2024, 1, 14)));
+        }
+
+        @Test
+        void shouldReturnNull_whenTwoPeriodsTouche() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 11), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.gap(period);
+
+            // Then
+            assertThat(result).isNull();
+        }
+
+        @Test
+        void shouldReturnNull_whenTwoPeriodsOverlap() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 8), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.gap(period);
+
+            // Then
+            assertThat(result).isNull();
+        }
+    }
+
     @Test
     void toString_shouldContainsStartAndEnd() {
         assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
