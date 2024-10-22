@@ -287,6 +287,36 @@ class DateTimePeriodTest {
         }
     }
 
+    @Nested
+    class Overlap {
+
+        @Test
+        void givenTwoPeriods_shouldDetermineOverlapBetweenThem() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = a.overlap(b);
+
+            // Then
+            assertThat(result).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 31)));
+        }
+
+        @Test
+        void shouldReturnNull_whenTwoPeriodsDoNotOverlap() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 5));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 5, 15), LocalDate.of(2024, 5, 20));
+
+            // When
+            DateTimePeriod result = a.overlap(b);
+
+            // Then
+            assertThat(result).isNull();
+        }
+    }
+
     @Test
     void toString_shouldContainsStartAndEnd() {
         assertThat(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15))
