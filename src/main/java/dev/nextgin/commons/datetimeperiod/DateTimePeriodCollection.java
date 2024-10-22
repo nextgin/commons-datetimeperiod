@@ -56,6 +56,44 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
         return collection != null ? collection : empty();
     }
 
+    /**
+     * Calculates the overlap of all periods across the given collections.
+     *
+     * @param collections to be considered for overlap
+     * @return A new collection containing periods that represent the common overlap across all
+     * input collections. If there is no common overlap, an empty collection is returned.
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection overlapAll(DateTimePeriodCollection... collections) {
+        DateTimePeriodCollection overlap = this;
+        for (DateTimePeriodCollection collection : collections) {
+            overlap = overlap.overlap(collection);
+        }
+        return overlap;
+    }
+
+    private DateTimePeriodCollection overlap(DateTimePeriodCollection collection) {
+        DateTimePeriodCollection overlaps = DateTimePeriodCollection.empty();
+        for (DateTimePeriod period : this) {
+            for (DateTimePeriod otherPeriod : collection) {
+                DateTimePeriod overlap = period.overlap(otherPeriod);
+                if (overlap == null) {
+                    continue;
+                }
+
+                overlaps.add(overlap);
+            }
+        }
+        return overlaps;
+    }
+
+    /**
+     * Returns the period at the specified position in this collection.
+     *
+     * @param index index of the element to return
+     * @return the period at the specified position in this collection
+     * @throws IndexOutOfBoundsException {@inheritDoc}
+     */
     public DateTimePeriod get(int index) {
         return this.data.get(index);
     }

@@ -280,6 +280,79 @@ DateTimePeriod overlapAny = period1.overlapAny(period2, period3);
 
 ---
 
+The `DateTimePeriodCollection` methods:
+
+### Creating collections
+
+Create a new collection from the given periods:
+
+```java
+DateTimePeriod period = DateTimePeriod.make(
+        LocalDateTime.of(2024, 1, 1, 9, 30),
+        LocalDateTime.of(2024, 1, 1, 17, 45),
+        Precision.MINUTE
+);
+
+DateTimePeriodCollection collection = DateTimePeriodCollection.of(period, period);
+```
+
+Create a new collection from the given `Collection` of periods.
+
+```java
+DateTimePeriod period = DateTimePeriod.make(
+        LocalDateTime.of(2024, 1, 1, 9, 30),
+        LocalDateTime.of(2024, 1, 1, 17, 45),
+        Precision.MINUTE
+);
+
+List<DateTimePeriod> list = List.of(period, period, period);
+DateTimePeriodCollection collection = DateTimePeriodCollection.of(list);
+```
+
+Create an empty collection:
+
+```java
+DateTimePeriodCollection emptyCollection = DateTimePeriodCollection.empty();
+```
+
+Create an empty collection when given collection is `null`:
+
+```java
+DateTimePeriodCollection emptyCollection = DateTimePeriodCollection.emptyIfNull(null); // new empty instance
+DateTimePeriodCollection collection = DateTimePeriodCollection.emptyIfNull(DateTimePeriodCollection.of(period)); // return the given collection [period]
+```
+
+### `DateTimePeriodCollection overlapAll(DateTimePeriodCollection... collections)`
+
+Calculates the overlap of all periods across the given collections.
+
+![](./docs/images/collection-overlap-all.svg)
+
+```java
+DateTimePeriod a1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-20")
+);
+DateTimePeriod a2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-25"),
+        LocalDate.parse("2024-01-31")
+);
+DateTimePeriodCollection a = DateTimePeriodCollection.of(a1, a2);
+
+DateTimePeriodCollection b = DateTimePeriodCollection.of(DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-28")
+));
+
+DateTimePeriodCollection c = DateTimePeriodCollection.of(DateTimePeriod.make(
+        LocalDate.parse("2024-01-10"),
+        LocalDate.parse("2024-02-20")
+));
+
+DateTimePeriodCollection result = a.overlapAll(b, c);
+// result represents [[2024-01-10, 2024-01-20], [2024-01-25, 2024-01-28]]
+```
+
 ### Testing
 
 ```bash
