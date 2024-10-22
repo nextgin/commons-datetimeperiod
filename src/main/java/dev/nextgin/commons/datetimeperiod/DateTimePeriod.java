@@ -95,6 +95,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      * this period.
      *
      * @return A new period with the same duration, starting from the end of this period.
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriod renew() {
         long diff = this.duration().toMillis();
@@ -109,6 +110,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      *
      * @param period The period to check for touching
      * @return true if this period touches the specified period without overlapping, false otherwise
+     * @throws DateTimePeriodException if precision does not match
      */
     public boolean touchesWith(DateTimePeriod period) {
         this.ensurePrecisionMatches(period);
@@ -132,9 +134,9 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
      * @param period The period to calculate the gap with
      * @return A new period representing the gap between the two periods, or null if the periods
      * overlap or touch
+     * @throws DateTimePeriodException if precision does not match
      */
-    @Nullable
-    public DateTimePeriod gap(DateTimePeriod period) {
+    @Nullable public DateTimePeriod gap(DateTimePeriod period) {
         this.ensurePrecisionMatches(period);
 
         if (this.overlapsWith(period)) {
@@ -220,8 +222,7 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
         }
 
         DateTimePeriod period = (DateTimePeriod) object;
-        return Objects.equals(start, period.start) && Objects.equals(end, period.end)
-                && precision == period.precision;
+        return Objects.equals(start, period.start) && Objects.equals(end, period.end) && precision == period.precision;
     }
 
     @Override
