@@ -481,6 +481,28 @@ DateTimePeriodCollection gaps = a.gaps();
 // gaps represents [[2024-01-11, 2024-01-14], [2024-01-21, 2024-01-24]]
 ```
 
+### `DateTimePeriodCollection intersect(DateTimePeriod intersection)`
+
+Calculate the intersection between a collection and a period.
+
+![](./docs/images/collection-intersect.svg)
+
+```java
+DateTimePeriodCollection collection = DateTimePeriodCollection.of(
+        DateTimePeriod.make(LocalDate.parse("2024-01-05"), LocalDate.parse("2024-01-15")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-°1"), LocalDate.parse("2024-01-10")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-10"), LocalDate.parse("2024-01-15")),
+        DateTimePeriod.make(LocalDate.parse("2024-02-01"), LocalDate.parse("2024-02-15")));
+
+DateTimePeriod intersection = DateTimePeriod.make(
+        LocalDate.parse("2024-01-09"), 
+        LocalDate.parse("2024-01-11")
+);
+
+DateTimePeriodCollection result = collection.intersect(intersection);
+// result represents [[2024-01-09, 2024-01-11], [2024-01-09, 2024-01-10], [2024-01-10, 2024-01-11]]
+```
+
 ### Testing
 
 ```bash
