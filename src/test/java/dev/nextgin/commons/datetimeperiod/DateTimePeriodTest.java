@@ -409,4 +409,83 @@ class DateTimePeriodTest {
             assertThat(result).isEmpty();
         }
     }
+
+    @Nested
+    class Subtract {
+
+        @Test
+        void shouldThrowException_whenPrecisionDoesNotMatch() {
+            // Given
+            DateTimePeriod p1 = DateTimePeriod.make(
+                    LocalDate.of(2024, 1, 1).atStartOfDay(),
+                    LocalDate.of(2024, 1, 5).atStartOfDay(),
+                    Precision.MINUTE);
+            DateTimePeriod p2 = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 20));
+
+            // When & Then
+            assertThatExceptionOfType(DateTimePeriodException.class)
+                    .isThrownBy(() -> p1.subtract(p2))
+                    .extracting(Throwable::getMessage)
+                    .satisfies(message -> assertThat(message).isEqualTo("Periods precision does not match."));
+        }
+
+        @Test
+        void givenTwoPeriodsWithoutOverlap_shouldReturnFirstPeriod() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 5));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 20));
+
+            // When
+            DateTimePeriodCollection result = a.subtract(b);
+
+            // Then
+            assertThat(result).hasSize(1).singleElement().satisfies(resultPeriod -> assertThat(resultPeriod)
+                    .isEqualTo(a));
+        }
+
+        @Test
+        void givenPeriodABeforePeriodB_shouldReturnStartOfPeriodA() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 1, 5), LocalDate.of(2024, 2, 20));
+
+            // When
+            DateTimePeriodCollection result = a.subtract(b);
+
+            // Then
+            assertThat(result).hasSize(1).singleElement().satisfies(resultPeriod -> assertThat(resultPeriod)
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 4))));
+        }
+
+        @Test
+        void givenPeriodAAfterPeriodB_shouldReturnStartOfPeriodA() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 20));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 1, 5), LocalDate.of(2024, 2, 10));
+
+            // When
+            DateTimePeriodCollection result = a.subtract(b);
+
+            // Then
+            assertThat(result).hasSize(1).singleElement().satisfies(resultPeriod -> assertThat(resultPeriod)
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 2, 20))));
+        }
+
+        @Test
+        void givenPeriodABiggerThanPeriodB_shouldReturnStartOfPeriodABeforePeriodBAndEndOfPeriodBToEndOfPeriodA() {
+            // Given
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 28));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 2, 5), LocalDate.of(2024, 2, 10));
+
+            // When
+            DateTimePeriodCollection result = a.subtract(b);
+
+            // Then
+            assertThat(result).hasSize(2);
+            DateTimePeriod first = result.get(0);
+            assertThat(first).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 4)));
+            DateTimePeriod second = result.get(1);
+            assertThat(second).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 2, 28)));
+        }
+    }
 }

@@ -278,6 +278,28 @@ DateTimePeriod overlapAny = period1.overlapAny(period2, period3);
 // [[2024-01-05, 2024-01-10], [2024-01-20, 2024-01-25]]
 ```
 
+### `DateTimePeriodCollection subtract(DateTimePeriod period)`
+
+Subtracts a period from another period. It returns a collection containing the remaining
+non-overlapping periods.
+
+![](./docs/images/period-subtract.svg)
+
+```java
+DateTimePeriod period1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-31")
+);
+
+DateTimePeriod period2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-15"),
+        LocalDate.parse("2024-01-20")
+);
+
+DateTimePeriodCollection subtract = period1.subtract(period2);
+// [[2024-01-01, 2024-01-14], [2024-01-21, 2024-01-31]]
+```
+
 ---
 
 The `DateTimePeriodCollection` methods:
@@ -318,8 +340,10 @@ DateTimePeriodCollection emptyCollection = DateTimePeriodCollection.empty();
 Create an empty collection when given collection is `null`:
 
 ```java
-DateTimePeriodCollection emptyCollection = DateTimePeriodCollection.emptyIfNull(null); // new empty instance
-DateTimePeriodCollection collection = DateTimePeriodCollection.emptyIfNull(DateTimePeriodCollection.of(period)); // return the given collection [period]
+DateTimePeriodCollection emptyCollection = DateTimePeriodCollection.emptyIfNull(
+        null); // new empty instance
+DateTimePeriodCollection collection = DateTimePeriodCollection.emptyIfNull(
+        DateTimePeriodCollection.of(period)); // return the given collection [period]
 ```
 
 ### `DateTimePeriodCollection overlapAll(DateTimePeriodCollection... collections)`
