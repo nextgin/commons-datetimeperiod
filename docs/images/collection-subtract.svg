@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
+  <rect x="0" y="0" width="400" height="250" fill="white" />
+
+  <!-- Timeline -->
+  <line x1="20" y1="200" x2="350" y2="200" stroke="black" stroke-width="2"/>
+
+  <!-- Time markers -->
+  <line x1="20" y1="195" x2="20" y2="205" stroke="black" stroke-width="2"/>
+  <line x1="350" y1="195" x2="350" y2="205" stroke="black" stroke-width="2"/>
+
+  <!-- Collection A -->
+  <text x="0" y="30" font-family="Verdana" font-size="9">A[]</text>
+  <!-- Period 1 -->
+  <rect x="25" y="35" width="130" height="30" fill="#9f86c0" stroke="#5e548e" stroke-width="2"/>
+  <text x="30" y="55" font-family="Verdana" font-size="14" fill="white">Period A1</text>
+  <!-- Period 2 -->
+  <rect x="200" y="35" width="140" height="30" fill="#9f86c0" stroke="#5e548e" stroke-width="2"/>
+  <text x="205" y="55" font-family="Verdana" font-size="14" fill="white">Period A2</text>
+
+  <!-- Collection B -->
+  <text x="0" y="80" font-family="Verdana" font-size="9">B[]</text>
+  <!-- Period 1 -->
+  <rect x="50" y="85" width="130" height="30" fill="#f4a261" stroke="#e76f51" stroke-width="2"/>
+  <text x="55" y="105" font-family="Verdana" font-size="14" fill="white">Period B1</text>
+  <!-- Period 2 -->
+  <rect x="230" y="85" width="90" height="30" fill="#f4a261" stroke="#e76f51" stroke-width="2"/>
+  <text x="235" y="105" font-family="Verdana" font-size="14" fill="white">Period B2</text>
+
+  <!-- Subtract areas -->
+  <rect x="25" y="185" width="25" height="30" fill="#2a9d8f" stroke="#264653" stroke-width="2"/>
+  <text x="30" y="205" font-family="Verdana" font-size="10" fill="white">Sub</text>
+  <rect x="200" y="185" width="30" height="30" fill="#2a9d8f" stroke="#264653" stroke-width="2"/>
+  <text x="205" y="205" font-family="Verdana" font-size="10" fill="white">Sub</text>
+  <rect x="320" y="185" width="20" height="30" fill="#2a9d8f" stroke="#264653" stroke-width="2"/>
+  <text x="325" y="205" font-family="Verdana" font-size="7" fill="white">Sub</text>
+
+  <!-- Subtract indicators -->
+  <line x1="25" y1="65" x2="25" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="50" y1="65" x2="50" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="200" y1="65" x2="200" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="230" y1="65" x2="230" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="320" y1="65" x2="320" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+  <line x1="340" y1="65" x2="340" y2="215" stroke="#264653" stroke-width="2" stroke-dasharray="4"/>
+
+  <!-- Legend -->
+  <text x="20" y="230" font-family="Verdana" font-size="12">Start</text>
+  <text x="330" y="230" font-family="Verdana" font-size="12">End</text>
+</svg>

@@ -373,7 +373,7 @@ DateTimePeriodCollection collection = DateTimePeriodCollection.emptyIfNull(
 
 ### `DateTimePeriodCollection overlapAll(DateTimePeriodCollection... collections)`
 
-Calculates the overlap of all periods across the given collections.
+Calculate the overlap of all periods across the given collections.
 
 ![](./docs/images/collection-overlap-all.svg)
 
@@ -404,7 +404,7 @@ DateTimePeriodCollection result = a.overlapAll(b, c);
 
 ### `DateTimePeriod boundaries()`
 
-Calculates the boundary period that encompasses all periods in the collection.
+Calculate the boundary period that encompasses all periods in the collection.
 
 ![](./docs/images/collection-boundaries.svg)
 
@@ -417,6 +417,68 @@ DateTimePeriodCollection current = DateTimePeriodCollection.of(
 
 DateTimePeriod boundaries = a.boundaries();
 // boundaries represents [2024-01-01, 2024-03-31]
+```
+
+### `DateTimePeriodCollection subtract(DateTimePeriod... periods)`
+
+Subtract the specified periods from the collection.
+
+![](./docs/images/collection-subtract.svg)
+
+```java
+// Collection A
+DateTimePeriod a1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-10")
+);
+DateTimePeriod a2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-20"),
+        LocalDate.parse("2024-01-31")
+);
+DateTimePeriodCollection a = DateTimePeriodCollection.of(a1, a2);
+
+
+// Collection B
+DateTimePeriod b1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-05"),
+        LocalDate.parse("2024-01-15")
+);
+DateTimePeriod b2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-25"),
+        LocalDate.parse("2024-01-28")
+);
+DateTimePeriodCollection b = DateTimePeriodCollection.of(b1, b2);
+
+// Result
+DateTimePeriodCollection subtract = a.subtract(b);
+// subtract represents [[2024-01-01, 2024-01-04], [2024-01-20, 2024-01-24], [2024-01-29, 2024-01-31]]
+```
+
+### `DateTimePeriodCollection gaps()`
+
+Calculate the gaps between the periods in a collection.
+
+![](./docs/images/collection-gaps.svg)
+
+```java
+// Collection A
+DateTimePeriod a1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-10")
+);
+DateTimePeriod a2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-15"),
+        LocalDate.parse("2024-01-20")
+);
+DateTimePeriod a3 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-25"),
+        LocalDate.parse("2024-01-31")
+);
+DateTimePeriodCollection collection = DateTimePeriodCollection.of(a1, a2);
+
+// Result
+DateTimePeriodCollection gaps = a.gaps();
+// gaps represents [[2024-01-11, 2024-01-14], [2024-01-21, 2024-01-24]]
 ```
 
 ### Testing
