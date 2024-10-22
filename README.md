@@ -302,7 +302,7 @@ DateTimePeriodCollection subtract = period1.subtract(period2);
 
 ### `DateTimePeriodCollection subtractAll(DateTimePeriod... periods)`
 
-Subtracts multiple periods from a period, returning a collection containing the remaining
+Subtract multiple periods from a period, returning a collection containing the remaining
 non-overlapping periods.
 
 ![](./docs/images/period-subtract-all.svg)
