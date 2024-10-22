@@ -300,6 +300,31 @@ DateTimePeriodCollection subtract = period1.subtract(period2);
 // [[2024-01-01, 2024-01-14], [2024-01-21, 2024-01-31]]
 ```
 
+### `DateTimePeriodCollection subtractAll(DateTimePeriod... periods)`
+
+Subtracts a period from another period. It returns a collection containing the remaining
+non-overlapping periods.
+
+![](./docs/images/period-subtract-all.svg)
+
+```java
+DateTimePeriod a = DateTimePeriod.make(
+        LocalDate.parse("2024-01-15"),
+        LocalDate.parse("2024-01-31")
+);
+DateTimePeriod b = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-20")
+);
+DateTimePeriod c = DateTimePeriod.make(
+        LocalDate.parse("2024-01-15"),
+        LocalDate.parse("2024-01-25")
+);
+
+DateTimePeriodCollection subtractAll = a.subtractAll(b, c);
+// subtractAll represents [[2024-01-26, 2024-01-31]]
+```
+
 ---
 
 The `DateTimePeriodCollection` methods:
@@ -385,9 +410,10 @@ Calculates the boundary period that encompasses all periods in the collection.
 
 ```java
 DateTimePeriodCollection current = DateTimePeriodCollection.of(
-        DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 31)),
-        DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 20)),
-        DateTimePeriod.make(LocalDate.of(2024, 3, 1), LocalDate.of(2024, 3, 31)));
+        DateTimePeriod.make(LocalDate.parse("2024-01-15"), LocalDate.parse("2024-01-31")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-01"), LocalDate.parse("2024-01-20")),
+        DateTimePeriod.make(LocalDate.parse("2024-03-01"), LocalDate.parse("2024-03-31"))
+);
 
 DateTimePeriod boundaries = a.boundaries();
 // boundaries represents [2024-01-01, 2024-03-31]
