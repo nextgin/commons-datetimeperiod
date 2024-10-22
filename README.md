@@ -355,7 +355,7 @@ DateTimePeriodCollection result = a.overlapAll(b, c);
 
 ### `DateTimePeriod boundaries()`
 
-Calculates the boundary period that encompasses all periods in this collection.
+Calculates the boundary period that encompasses all periods in the collection.
 
 ![](./docs/images/collection-boundaries.svg)
 
