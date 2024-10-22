@@ -487,5 +487,87 @@ class DateTimePeriodTest {
             DateTimePeriod second = result.get(1);
             assertThat(second).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 2, 28)));
         }
+
+        @Test
+        void subtractAll() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 3, 15));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 2, 10), LocalDate.of(2024, 2, 20));
+            DateTimePeriod c = DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 3, 31));
+
+            // When
+            DateTimePeriodCollection result = period.subtractAll(a, b, c);
+
+            // Then
+            assertThat(result).hasSize(1);
+            DateTimePeriod first = result.get(0);
+            assertThat(first).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 9)));
+        }
+
+        @Test
+        void givenOverlappedPeriods_shouldReturnEmptyCollection() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 2, 20));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 1, 31), LocalDate.of(2024, 2, 25));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+
+            // When
+            DateTimePeriodCollection result = period.subtractAll(a, b);
+
+            // Then
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        void givenComplexPeriods_shouldReturnMultiplePeriods() {
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 3, 20));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 2, 5), LocalDate.of(2024, 2, 10));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 3, 1), LocalDate.of(2024, 3, 31));
+            DateTimePeriod c = DateTimePeriod.make(LocalDate.of(2022, 1, 1), LocalDate.of(2024, 1, 20));
+
+            // When
+            DateTimePeriodCollection result = period.subtractAll(a, b, c);
+
+            // Then
+            assertThat(result).hasSize(2);
+            DateTimePeriod first = result.get(0);
+            assertThat(first).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 21), LocalDate.of(2024, 2, 4)));
+            DateTimePeriod second = result.get(1);
+            assertThat(second).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 2, 29)));
+        }
+
+        @Test
+        void givenMultiplePeriodsWithinLongCurrentPeriod_shouldReturnCorrectPeriods() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 3, 31));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 2, 5), LocalDate.of(2024, 2, 10));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 20));
+
+            // When
+            DateTimePeriodCollection result = period.subtractAll(a, b);
+
+            // Then
+            assertThat(result).hasSize(3);
+            DateTimePeriod first = result.get(0);
+            assertThat(first).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 9)));
+            DateTimePeriod second = result.get(1);
+            assertThat(second).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 21), LocalDate.of(2024, 2, 4)));
+            DateTimePeriod third = result.get(2);
+            assertThat(third).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 11), LocalDate.of(2024, 3, 31)));
+        }
+
+        @Test
+        void shouldReturnAnEmptyCollection_whenPeriodsArePeriodsLengthIsZero() {
+            // Given
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+
+            // When
+            DateTimePeriodCollection result = period.subtractAll();
+
+            // Then
+            assertThat(result).hasSize(1).singleElement().satisfies(element -> assertThat(element)
+                    .isEqualTo(period));
+        }
     }
 }

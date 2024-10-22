@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Objects;
 
 public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> {
@@ -252,6 +253,32 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
         }
 
         return collection;
+    }
+
+    /**
+     * Subtracts all given periods from this period, returning a collection containing the
+     * remaining non-overlapping periods.
+     *
+     * @param periods to be subtracted
+     * @return A collection containing the remaining periods after subtraction
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection subtractAll(DateTimePeriod... periods) {
+        DateTimePeriodCollection collection = DateTimePeriodCollection.of(this);
+
+        if (periods.length == 0) {
+            return collection;
+        }
+
+        DateTimePeriodCollection[] subtractions = new DateTimePeriodCollection[periods.length];
+        for (int i = 0; i < periods.length; i++) {
+            subtractions[i] = this.subtract(periods[i]);
+        }
+        return collection.overlapAll(subtractions);
+    }
+
+    public DateTimePeriodCollection subtractAll(Collection<DateTimePeriod> periods) {
+        return this.subtractAll(periods.toArray(new DateTimePeriod[0]));
     }
 
     /**
