@@ -203,7 +203,7 @@ DateTimePeriod gap = period1.gap(period2);
 
 ### `DateTimePeriod overlap(DateTimePeriod period)`
 
-Overlap between two periods.
+Overlap of two periods.
 
 ![](./docs/images/period-overlap.svg)
 
@@ -224,7 +224,7 @@ DateTimePeriod overlap = period1.overlap(period2);
 
 ### `DateTimePeriod overlapAll(DateTimePeriod... periods)`
 
-Overlap between all the periods.
+Overlap of multiple periods.
 
 ![](./docs/images/period-overlap-all.svg)
 
