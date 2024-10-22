@@ -205,6 +205,26 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     }
 
     /**
+     * Returns a collection of periods that overlap with any of the given periods.
+     *
+     * @param periods to check for overlap
+     * @return A collection containing all periods that overlap with at least one of the input
+     * periods
+     */
+    public DateTimePeriodCollection overlapAny(DateTimePeriod... periods) {
+        DateTimePeriodCollection overlaps = DateTimePeriodCollection.empty();
+        for (DateTimePeriod period : periods) {
+            DateTimePeriod overlap = this.overlap(period);
+            if (overlap == null) {
+                continue;
+            }
+
+            overlaps.add(overlap);
+        }
+        return overlaps;
+    }
+
+    /**
      * Checks if this period contains the specified point in time.
      *
      * @param localDateTime The LocalDateTime to check
