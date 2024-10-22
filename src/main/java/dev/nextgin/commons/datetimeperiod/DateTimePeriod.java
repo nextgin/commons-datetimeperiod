@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateTimePeriod> {
+public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> {
 
     private final LocalDateTime start;
     private final LocalDateTime end;
@@ -223,6 +223,35 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
             overlaps.add(overlap);
         }
         return overlaps;
+    }
+
+    /**
+     * Subtracts the given period from this period, returning a new collection containing the
+     * remaining non-overlapping periods.
+     *
+     * @param period to be subtracted from this period
+     * @return A collection containing the remaining periods after subtraction
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection subtract(DateTimePeriod period) {
+        this.ensurePrecisionMatches(period);
+
+        if (!this.overlapsWith(period)) {
+            return DateTimePeriodCollection.of(this);
+        }
+
+        DateTimePeriodCollection collection = DateTimePeriodCollection.empty();
+        if (this.start().isBefore(period.start())) {
+            collection.add(DateTimePeriod.make(
+                    this.start(), period.start().minus(this.precision().interval()), this.precision()));
+        }
+
+        if (this.end().isAfter(period.end())) {
+            collection.add(
+                    DateTimePeriod.make(period.end().plus(this.precision().interval()), this.end(), this.precision()));
+        }
+
+        return collection;
     }
 
     /**
