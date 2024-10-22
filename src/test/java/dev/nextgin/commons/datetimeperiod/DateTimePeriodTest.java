@@ -315,6 +315,48 @@ class DateTimePeriodTest {
             // Then
             assertThat(result).isNull();
         }
+
+        @Test
+        void givenPeriodsWithOverlap_overlapAll_shouldDetermineTheOverlap() {
+            // Given
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 2, 29));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 5));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.overlapAll(a, b);
+
+            // Then
+            assertThat(result)
+                    .isNotNull()
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 5)));
+        }
+
+        @Test
+        void givenPeriodsWithoutOverlap_overlapAll_shouldReturnNull() {
+            // Given
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 15));
+            DateTimePeriod a = DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 5));
+            DateTimePeriod b = DateTimePeriod.make(LocalDate.of(2024, 2, 20), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriod result = current.overlapAll(a, b);
+
+            // Then
+            assertThat(result).isNull();
+        }
+
+        @Test
+        void givenEmptyPeriods_overlapAll_shouldReturnThis() {
+            // Given
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 15));
+
+            // When
+            DateTimePeriod result = current.overlapAll();
+
+            // Then
+            assertThat(result).isEqualTo(current);
+        }
     }
 
     @Test

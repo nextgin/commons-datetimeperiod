@@ -181,6 +181,30 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     }
 
     /**
+     * Returns a period that overlap with all given periods and this period.
+     *
+     * @param periods to check for overlap
+     * @return A new period representing the overlapping time, or null if there's no overlap
+     * @throws DateTimePeriodException if precision does not match
+     */
+    @Nullable public DateTimePeriod overlapAll(DateTimePeriod... periods) {
+        if (periods.length == 0) {
+            return this;
+        }
+
+        DateTimePeriod overlap = this;
+
+        for (DateTimePeriod other : periods) {
+            overlap = overlap.overlap(other);
+            if (overlap == null) {
+                return null;
+            }
+        }
+
+        return overlap;
+    }
+
+    /**
      * Checks if this period contains the specified point in time.
      *
      * @param localDateTime The LocalDateTime to check
@@ -248,15 +272,6 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     @Override
     public int hashCode() {
         return Objects.hash(start, end, precision);
-    }
-
-    @Override
-    public DateTimePeriod clone() {
-        try {
-            return (DateTimePeriod) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
     }
 
     @Override
