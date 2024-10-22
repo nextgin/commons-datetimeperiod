@@ -119,6 +119,7 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
      *
      * @param periods to be subtracted from this collection
      * @return A new collection containing the remaining periods after subtraction
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriodCollection subtract(DateTimePeriod... periods) {
         if (periods.length == 0) {
@@ -138,6 +139,7 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
      *
      * @param collection to be subtracted from this collection
      * @return A new collection containing the remaining periods after subtraction
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriodCollection subtract(DateTimePeriodCollection collection) {
         if (collection.size() == 0) {
@@ -153,6 +155,7 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
      * @return A new collection containing periods that represent the time gaps between the periods
      * in this collection. If there are no gaps (i.e., all periods are contiguous or overlapping),
      * returns an empty collection.
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriodCollection gaps() {
         DateTimePeriod boundaries = this.boundaries();
@@ -161,6 +164,29 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
         }
 
         return boundaries.subtractAll(this.toArray(new DateTimePeriod[0]));
+    }
+
+    /**
+     * Calculates the intersection of this collection with the given period.
+     *
+     * @param intersection The DateTimePeriod to intersect with this collection
+     * @return A new collection containing periods that represent the intersection of each period in
+     * this collection with the given period. Periods that don't intersect are excluded from the
+     * result.
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection intersect(DateTimePeriod intersection) {
+        DateTimePeriodCollection intersected = DateTimePeriodCollection.empty();
+
+        for (DateTimePeriod period : this) {
+            DateTimePeriod overlap = intersection.overlap(period);
+            if (overlap == null) {
+                continue;
+            }
+            intersected.add(overlap);
+        }
+
+        return intersected;
     }
 
     /**

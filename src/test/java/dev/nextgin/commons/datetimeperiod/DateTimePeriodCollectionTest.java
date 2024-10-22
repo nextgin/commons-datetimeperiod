@@ -36,6 +36,26 @@ class DateTimePeriodCollectionTest {
         assertThat(result).isEqualTo("[[2024-01-01T00:00, 2024-01-20T00:00], [2024-03-01T00:00, 2024-03-31T00:00]]");
     }
 
+    @Test
+    void intersect() {
+        // Given
+        DateTimePeriodCollection collection = DateTimePeriodCollection.of(
+                DateTimePeriod.make(LocalDate.of(2024, 1, 5), LocalDate.of(2024, 1, 15)),
+                DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10)),
+                DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15)),
+                DateTimePeriod.make(LocalDate.of(2024, 2, 1), LocalDate.of(2024, 2, 15)));
+        DateTimePeriod intersection = DateTimePeriod.make(LocalDate.of(2024, 1, 9), LocalDate.of(2024, 1, 11));
+
+        // When
+        DateTimePeriodCollection result = collection.intersect(intersection);
+
+        // Then
+        assertThat(result).hasSize(3);
+        assertThat(result.get(0)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 9), LocalDate.of(2024, 1, 11)));
+        assertThat(result.get(1)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 9), LocalDate.of(2024, 1, 10)));
+        assertThat(result.get(2)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 11)));
+    }
+
     @Nested
     class OverlapAll {
 
