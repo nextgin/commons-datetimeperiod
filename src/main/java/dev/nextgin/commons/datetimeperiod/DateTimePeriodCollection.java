@@ -115,6 +115,55 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
     }
 
     /**
+     * Subtracts the specified periods from this collection.
+     *
+     * @param periods to be subtracted from this collection
+     * @return A new collection containing the remaining periods after subtraction
+     */
+    public DateTimePeriodCollection subtract(DateTimePeriod... periods) {
+        if (periods.length == 0) {
+            return this;
+        }
+
+        DateTimePeriodCollection subtractedPeriods = DateTimePeriodCollection.empty();
+        for (DateTimePeriod period : this) {
+            subtractedPeriods.addAll(period.subtractAll(periods).data);
+        }
+
+        return subtractedPeriods;
+    }
+
+    /**
+     * Subtracts the specified collection from this collection.
+     *
+     * @param collection to be subtracted from this collection
+     * @return A new collection containing the remaining periods after subtraction
+     */
+    public DateTimePeriodCollection subtract(DateTimePeriodCollection collection) {
+        if (collection.size() == 0) {
+            return this;
+        }
+
+        return this.subtract(collection.toArray(new DateTimePeriod[0]));
+    }
+
+    /**
+     * Calculates the gaps between the periods in this collection.
+     *
+     * @return A new collection containing periods that represent the time gaps between the periods
+     * in this collection. If there are no gaps (i.e., all periods are contiguous or overlapping),
+     * returns an empty collection.
+     */
+    public DateTimePeriodCollection gaps() {
+        DateTimePeriod boundaries = this.boundaries();
+        if (boundaries == null) {
+            return DateTimePeriodCollection.empty();
+        }
+
+        return boundaries.subtractAll(this.toArray(new DateTimePeriod[0]));
+    }
+
+    /**
      * Returns the period at the specified position in this collection.
      *
      * @param index index of the element to return
