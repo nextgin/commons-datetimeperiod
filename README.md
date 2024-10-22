@@ -27,6 +27,8 @@ You can pull the dependency from the central Maven repositories:
 
 ## Usage
 
+The `DateTimePeriod` methods:
+
 ### Creating periods
 
 Create period with specific date-times and precision:
@@ -59,7 +61,7 @@ DateTimePeriod period = DateTimePeriod.make(
 
 ### `boolean overlapsWith(DateTimePeriod period)`
 
-Check if two periods overlap:
+Whether a period overlaps with another period.
 
 ```java
 DateTimePeriod morning = DateTimePeriod.make(
@@ -77,8 +79,8 @@ boolean overlaps = morning.overlapsWith(midday); // returns true
 
 ### `boolean touchesWith(DateTimePeriod period)`
 
-Check if two periods touch. Two periods touch if the end of one period is exactly the start of the
-other.
+Whether a period touches with another period. Two periods touch if the end of one period is
+exactly the start of the other.
 
 ```java
 DateTimePeriod period1 = DateTimePeriod.make(
@@ -124,7 +126,7 @@ boolean touches = period1.touchesWith(period2); // returns false
 
 ### `DateTimePeriod renew()`
 
-Renew means the creation of a new period instance with the same duration as the current one,
+Renew creates a new period instance with the same duration as the current one,
 starting from the end.
 
 ![](./docs/images/period-renew.svg)
@@ -141,12 +143,12 @@ DateTimePeriod renew = period.renew();
 
 ### `boolean contains(LocalDateTime localDateTime)`
 
-Check if a period contains a specified point in time.
+Whether a period contains a specified point in time.
 
 ```java
 DateTimePeriod workday = DateTimePeriod.make(
-    LocalDateTime.of(2024, 1, 1, 9, 0),
-    LocalDateTime.of(2024, 1, 1, 17, 0)
+        LocalDateTime.of(2024, 1, 1, 9, 0),
+        LocalDateTime.of(2024, 1, 1, 17, 0)
 );
 
 LocalDateTime lunchtime = LocalDateTime.of(2024, 1, 1, 12, 30);
@@ -158,17 +160,17 @@ boolean containsEvening = workday.contains(evening); // returns false
 
 ### `boolean contains(DateTimePeriod period)`
 
-Checks if a period fully contains another period.
+Whether a period fully contains another period.
 
 ```java
 DateTimePeriod workday = DateTimePeriod.make(
-    LocalDateTime.of(2024, 1, 1, 9, 0),
-    LocalDateTime.of(2024, 1, 1, 17, 0)
+        LocalDateTime.of(2024, 1, 1, 9, 0),
+        LocalDateTime.of(2024, 1, 1, 17, 0)
 );
 
 DateTimePeriod morning = DateTimePeriod.make(
-    LocalDateTime.of(2024, 1, 1, 9, 0),
-    LocalDateTime.of(2024, 1, 1, 12, 0)
+        LocalDateTime.of(2024, 1, 1, 9, 0),
+        LocalDateTime.of(2024, 1, 1, 12, 0)
 );
 
 boolean containsMorning = workday.contains(morning); // returns true
@@ -224,7 +226,8 @@ DateTimePeriod overlap = period1.overlap(period2);
 
 ### `DateTimePeriod overlapAll(DateTimePeriod... periods)`
 
-Overlap of multiple periods.
+Finds the overlapping period that is common to all provided periods. If there is no single period
+that overlaps with all others, returns null.
 
 ![](./docs/images/period-overlap-all.svg)
 
@@ -247,6 +250,35 @@ DateTimePeriod period3 = DateTimePeriod.make(
 DateTimePeriod overlapAll = period1.overlapAll(period2, period3);
 // overlapAll represents [2024-01-10T00:00, 2024-01-15T00:00]
 ```
+
+### `DateTimePeriodCollection overlapAny(DateTimePeriod... periods)`
+
+Finds all overlapping periods among the provided periods. When two or more periods overlap, the
+overlapping period is added to the result collection.
+
+![](./docs/images/period-overlap-any.svg)
+
+```java
+DateTimePeriod period1 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-20"),
+        LocalDate.parse("2024-01-31")
+);
+
+DateTimePeriod period2 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-10")
+);
+
+DateTimePeriod period3 = DateTimePeriod.make(
+        LocalDate.parse("2024-01-05"),
+        LocalDate.parse("2024-01-25")
+);
+
+DateTimePeriod overlapAny = period1.overlapAny(period2, period3);
+// [[2024-01-05, 2024-01-10], [2024-01-20, 2024-01-25]]
+```
+
+---
 
 ### Testing
 

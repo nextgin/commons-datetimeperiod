@@ -27,14 +27,14 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     }
 
     /**
-     * Creates a period instance representing a time period between two dates with DAY
-     * precision. This method converts the LocalDate parameters to LocalDateTime using start of day
-     * (00:00:00) for both dates.
+     * Creates a period instance representing a time period between two dates with DAY precision.
+     * This method converts the LocalDate parameters to LocalDateTime using start of day (00:00:00)
+     * for both dates.
      *
      * @param start The starting date of the period. Must not be null.
      * @param end   The ending date of the period. Must not be null.
-     * @return A new period instance representing the period between start and end dates
-     * with day-level precision
+     * @return A new period instance representing the period between start and end dates with
+     * day-level precision
      * @see #make(LocalDateTime, LocalDateTime, Precision)
      */
     public static DateTimePeriod make(LocalDate start, LocalDate end) {
@@ -42,8 +42,8 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
     }
 
     /**
-     * Creates a period instance representing a time period between two dates with SECOND
-     * precision. This is a convenience method that calls
+     * Creates a period instance representing a time period between two dates with SECOND precision.
+     * This is a convenience method that calls
      * {@link #make(LocalDateTime, LocalDateTime, Precision)} with {@link Precision#SECOND} as the
      * default precision.
      *
@@ -202,6 +202,27 @@ public class DateTimePeriod implements Serializable, Cloneable, Comparable<DateT
         }
 
         return overlap;
+    }
+
+    /**
+     * Returns a collection of periods that overlap with any of the given periods.
+     *
+     * @param periods to check for overlap
+     * @return A collection containing all periods that overlap with at least one of the input
+     * periods
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection overlapAny(DateTimePeriod... periods) {
+        DateTimePeriodCollection overlaps = DateTimePeriodCollection.empty();
+        for (DateTimePeriod period : periods) {
+            DateTimePeriod overlap = this.overlap(period);
+            if (overlap == null) {
+                continue;
+            }
+
+            overlaps.add(overlap);
+        }
+        return overlaps;
     }
 
     /**
