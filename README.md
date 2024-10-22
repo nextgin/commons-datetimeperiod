@@ -421,7 +421,7 @@ DateTimePeriod boundaries = a.boundaries();
 
 ### `DateTimePeriodCollection subtract(DateTimePeriod... periods)`
 
-Subtract the specified periods from the collection.
+Subtract periods from the collection.
 
 ![](./docs/images/collection-subtract.svg)
 
