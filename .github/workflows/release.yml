@@ -135,17 +135,33 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Extract release date from git tag
+        id: release_date
+        run: |
+          # Get UNIX timestamp from git-tag
+          TIMESTAMP_OF_RELEASE_COMMIT=$(git log -1 --date=unix --format=%ad '${{ inputs.version }}');
+
+          # Convert timestamp to UTC date in Y-m-d format
+          FORMATED_DATE=$(date -u -d @$TIMESTAMP_OF_RELEASE_COMMIT +%Y-%m-%d)
+
+          # Make date available to other steps
+          echo "date=$(echo $FORMATED_DATE)" >> $GITHUB_OUTPUT;
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
         with:
+          release-date: ${{ steps.release_date.outputs.date }}
           latest-version: ${{ needs.release.outputs.version }}
           release-notes: ${{ needs.release.outputs.notes }}
 
       - name: Commit updated Changelog
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: ${{ github.event.release.target_commitish }}
+          branch: ${{ github.ref_name }}
           commit_message: "docs: update changelog [skip ci]"
           file_pattern: CHANGELOG.md
 
@@ -160,6 +176,9 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
 
       - name: Update README.md dependency version
         run: |
@@ -174,6 +193,6 @@ jobs:
       - name: Commit updated Changelog
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          branch: ${{ github.event.release.target_commitish }}
+          branch: ${{ github.ref_name }}
           commit_message: "docs: update readme [skip ci]"
           file_pattern: README.md
