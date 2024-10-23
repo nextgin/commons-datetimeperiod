@@ -2,6 +2,10 @@
 
 All notable changes to `datetimeperiod` will be documented in this file
 
+## 1.1.0 - 2024-10-23
+
+* Symmetric difference between two periods by @ooutama in https://github.com/nextgin/commons-datetimeperiod/pull/14
+
 ## 1.0.0 - 2024-10-23
 
 * Intersection between a collection and a period by @ooutama in https://github.com/nextgin/commons-datetimeperiod/pull/12
@@ -25,4 +29,3 @@ All notable changes to `datetimeperiod` will be documented in this file
 ## 0.1.0 - 202X-XX-XX
 
 - Initial test release
-
