@@ -21,7 +21,7 @@ You can pull the dependency from the central Maven repositories:
 <dependency>
   <groupId>dev.nextgin.commons</groupId>
   <artifactId>datetimeperiod</artifactId>
-  <version>0.8.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
