@@ -282,6 +282,27 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
     }
 
     /**
+     * Calculates the symmetric difference between this period and the specified period. The
+     * symmetric difference includes all time ranges that belong to either this period or the
+     * specified period, but not both.
+     *
+     * @param period The period to calculate the symmetric difference with
+     * @return A collection containing the periods that represent the symmetric difference
+     */
+    public DateTimePeriodCollection diffSymmetric(DateTimePeriod period) {
+        this.ensurePrecisionMatches(period);
+
+        if (!this.overlapsWith(period)) {
+            return DateTimePeriodCollection.of(this, period);
+        }
+
+        DateTimePeriod boundaries = DateTimePeriodCollection.of(this, period).boundaries();
+        DateTimePeriod overlap = this.overlap(period);
+        assert boundaries != null;
+        return boundaries.subtract(overlap);
+    }
+
+    /**
      * Checks if this period contains the specified point in time.
      *
      * @param localDateTime The LocalDateTime to check
