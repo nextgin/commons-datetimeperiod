@@ -81,24 +81,6 @@
               <expandEmptyElements>false</expandEmptyElements>
             </sortPom>
           </pom>
-          <markdown>
-            <includes>
-              <include>**/*.md</include>
-            </includes>
-            <flexmark/>
-          </markdown>
-          <json>
-            <includes>
-              <include>src/**/*.json</include>
-            </includes>
-            <jackson/>
-          </json>
-          <yaml>
-            <includes>
-              <include>src/**/*.yaml</include>
-            </includes>
-            <jackson/>
-          </yaml>
         </configuration>
         <executions>
           <execution>
