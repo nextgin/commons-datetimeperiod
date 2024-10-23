@@ -570,4 +570,91 @@ class DateTimePeriodTest {
                     .isEqualTo(period));
         }
     }
+
+    @Nested
+    class DiffSymmetric {
+
+        @Test
+        void twoPeriodsWithoutOverlap() {
+            // Given
+            DateTimePeriod current = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod period = DateTimePeriod.make(LocalDate.of(2024, 1, 15), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriodCollection result = current.diffSymmetric(period);
+
+            // Then
+            assertThat(result).hasSize(2);
+            assertThat(result.get(0)).isEqualTo(current);
+            assertThat(result.get(1)).isEqualTo(period);
+        }
+
+        @Test
+        void periodABeforePeriodBWithOverlap() {
+            // Given
+            DateTimePeriod periodA = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            DateTimePeriod periodB = DateTimePeriod.make(LocalDate.of(2024, 1, 8), LocalDate.of(2024, 2, 29));
+
+            // When
+            DateTimePeriodCollection result = periodA.diffSymmetric(periodB);
+
+            // Then
+            assertThat(result).hasSize(2);
+            assertThat(result.get(0))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 7)));
+            assertThat(result.get(1))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 11), LocalDate.of(2024, 2, 29)));
+        }
+
+        @Test
+        void periodAAfterPeriodBWithOverlap() {
+            // Given
+            DateTimePeriod periodA = DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 31));
+            DateTimePeriod periodB = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 15));
+
+            // When
+            DateTimePeriodCollection result = periodA.diffSymmetric(periodB);
+
+            // Then
+            assertThat(result).hasSize(2);
+            assertThat(result.get(0))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 9)));
+            assertThat(result.get(1))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 16), LocalDate.of(2024, 1, 31)));
+        }
+
+        @Test
+        void periodBWithinPeriodA() {
+            // Given
+            DateTimePeriod periodA = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+            DateTimePeriod periodB = DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15));
+
+            // When
+            DateTimePeriodCollection result = periodA.diffSymmetric(periodB);
+
+            // Then
+            assertThat(result).hasSize(2);
+            assertThat(result.get(0))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 9)));
+            assertThat(result.get(1))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 16), LocalDate.of(2024, 1, 31)));
+        }
+
+        @Test
+        void periodAWithinPeriodB() {
+            // Given
+            DateTimePeriod periodA = DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 15));
+            DateTimePeriod periodB = DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 31));
+
+            // When
+            DateTimePeriodCollection result = periodA.diffSymmetric(periodB);
+
+            // Then
+            assertThat(result).hasSize(2);
+            assertThat(result.get(0))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 9)));
+            assertThat(result.get(1))
+                    .isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 16), LocalDate.of(2024, 1, 31)));
+        }
+    }
 }
