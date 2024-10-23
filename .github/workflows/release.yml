@@ -208,7 +208,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
       - name: Publish artifact
-        run: mvn deploy -P release
+        run: mvn clean deploy -P release
         env:
           MAVEN_USERNAME:  ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
