@@ -8,6 +8,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * A specialized collection for managing and manipulating sets of DateTimePeriod objects. This
+ * collection provides additional operations specific to time period management while maintaining
+ * the standard Collection interface contract.
+ *
+ * @see java.util.Collection
+ * @see DateTimePeriod
+ */
 public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
 
     private final ArrayList<DateTimePeriod> data;

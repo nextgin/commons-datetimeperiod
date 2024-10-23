@@ -6,12 +6,49 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.TemporalAmount;
 
+/**
+ * Defines the precision levels available for DateTimePeriod operations. The precision determines
+ * the smallest unit of time that is considered significant for period calculations and
+ * comparisons.
+ * <p>
+ * Each precision level is associated with a specific time interval that represents its
+ * granularity.
+ */
 public enum Precision {
+    /**
+     * Year precision, with an interval of one year. Periods with this precision will
+     * ignore units smaller than years in all operations.
+     */
     YEAR(Period.ofYears(1)),
+
+    /**
+     * Day precision, with an interval of one month. Periods with this precision will ignore units
+     * smaller than days in all operations.
+     */
     MONTH(Period.ofMonths(1)),
+
+    /**
+     * Day precision, with an interval of one day. Periods with this precision will
+     * ignore units smaller than days in all operations.
+     */
     DAY(Period.ofDays(1)),
+
+    /**
+     * Hour precision, with an interval of one hour. Periods with this precision will ignore units
+     * smaller than hours in all operations.
+     */
     HOUR(Duration.ofHours(1)),
+
+    /**
+     * Minute precision, with an interval of one minute. Periods with this precision will ignore
+     * units smaller than minutes in all operations.
+     */
     MINUTE(Duration.ofMinutes(1)),
+
+    /**
+     * Second precision, with an interval of one second. Periods with this precision will ignore
+     * units smaller than seconds (such as milliseconds) in all operations.
+     */
     SECOND(Duration.ofSeconds(1)),
     ;
 
@@ -30,16 +67,6 @@ public enum Precision {
      * Precision.MONTH.round(dt)  // returns 2024-03-01T00:00
      * </pre>
      *
-     * <p>
-     * Rounding behavior for each precision:
-     * - YEAR: rounds to the start of the year
-     * - MONTH: rounds to the start of the month
-     * - DAY: rounds to the start of the day (midnight)
-     * - HOUR: rounds to the start of the hour
-     * - MINUTE: rounds to the start of the minute
-     * - SECOND: rounds to the start of the second
-     * </p>
-     *
      * @param dt The LocalDateTime to round.
      * @return A new LocalDateTime rounded to the specified precision
      */
@@ -55,6 +82,11 @@ public enum Precision {
         };
     }
 
+    /**
+     * Returns the time interval associated with this precision level.
+     *
+     * @return the TemporalAmount representing the precision interval
+     */
     public TemporalAmount interval() {
         return interval;
     }
