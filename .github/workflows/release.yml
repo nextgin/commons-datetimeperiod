@@ -182,6 +182,8 @@ jobs:
           file_pattern: "CHANGELOG.md README.md"
 
   publish-artifact:
+    needs: release
+
     runs-on: ubuntu-latest
 
     name: Publish artifact (${{ inputs.version }}) via The Central Portal
