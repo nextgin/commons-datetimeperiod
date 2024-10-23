@@ -521,7 +521,7 @@ DateTimePeriodCollection union = collection.union();
 ### Testing
 
 ```bash
-./mvnw verify
+mvn verify
 ```
 
 ### Changelog
