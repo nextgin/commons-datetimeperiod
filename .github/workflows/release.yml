@@ -129,6 +129,7 @@ jobs:
           files: |
             target/datetimeperiod-${{ steps.version.outputs.version }}.jar
 
+
   update-changelog-and-readme:
     needs: release
 
@@ -179,3 +180,34 @@ jobs:
           branch: ${{ github.ref_name }}
           commit_message: "docs: update CHANGELOG.md and README.md [skip ci]"
           file_pattern: "CHANGELOG.md README.md"
+
+  publish-artifact:
+    runs-on: ubuntu-latest
+
+    name: Publish artifact (${{ inputs.version }}) via The Central Portal
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+          server-id: central
+          server-username: MAVEN_USERNAME # env variable for username in deploy
+          server-password: MAVEN_CENTRAL_TOKEN # env variable for token in deploy
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+
+      - name: Publish artifact
+        run: mvn deploy -P release
+        env:
+          MAVEN_USERNAME:  ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
