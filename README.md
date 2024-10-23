@@ -19,7 +19,7 @@ You can pull the dependency from the central Maven repositories:
 <dependency>
   <groupId>dev.nextgin.commons</groupId>
   <artifactId>datetimeperiod</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
@@ -323,27 +323,6 @@ DateTimePeriodCollection subtractAll = a.subtractAll(b, c);
 // subtractAll represents [[2024-01-26, 2024-01-31]]
 ```
 
-### `DateTimePeriodCollection diffSymmetric(DateTimePeriod period)`
-
-The symmetric difference is all time ranges that belong to either one of the two periods, but not
-both.
-
-![](./docs/images/period-diff-symmetric.svg)
-
-```java
-DateTimePeriod a = DateTimePeriod.make(
-        LocalDate.parse("2024-01-15"),
-        LocalDate.parse("2024-01-31")
-);
-DateTimePeriod b = DateTimePeriod.make(
-        LocalDate.parse("2024-01-01"),
-        LocalDate.parse("2024-01-20")
-);
-
-DateTimePeriodCollection diffSymmetric = a.diffSymmetric(b);
-// subtractAll represents [[2024-01-01, 2024-01-14], [2024-01-21, 2024-01-31]]
-```
-
 ---
 
 The `DateTimePeriodCollection` methods:
@@ -514,7 +493,7 @@ DateTimePeriodCollection collection = DateTimePeriodCollection.of(
         DateTimePeriod.make(LocalDate.parse("2024-02-01"), LocalDate.parse("2024-02-15")));
 
 DateTimePeriod intersection = DateTimePeriod.make(
-        LocalDate.parse("2024-01-09"),
+        LocalDate.parse("2024-01-09"), 
         LocalDate.parse("2024-01-11")
 );
 
