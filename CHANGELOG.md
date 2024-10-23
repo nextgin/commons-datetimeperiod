@@ -2,6 +2,10 @@
 
 All notable changes to `datetimeperiod` will be documented in this file
 
+## 1.1.3 - 2024-10-23
+
+* docs: add missing Javadoc by @ooutama in https://github.com/nextgin/commons-datetimeperiod/pull/17
+
 ## 1.1.2 - 2024-10-23
 
 * Publish artifact to Maven Central by @ooutama in https://github.com/nextgin/commons-datetimeperiod/pull/16
