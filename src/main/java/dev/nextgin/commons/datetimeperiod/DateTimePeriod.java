@@ -9,6 +9,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Represents a period of time between two date/time points, providing operations for comparing,
+ * manipulating, and analyzing time periods.
+ * <p>
+ * This class is immutable and thread-safe. All operations that would modify the period return a new
+ * instance rather than modifying the existing one.
+ */
 public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> {
 
     private final LocalDateTime start;
@@ -277,6 +284,14 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
         return collection.overlapAll(subtractions);
     }
 
+    /**
+     * Subtracts all given periods from this period, returning a collection containing the remaining
+     * non-overlapping periods.
+     *
+     * @param periods to be subtracted
+     * @return A collection containing the remaining periods after subtraction
+     * @throws DateTimePeriodException if precision does not match
+     */
     public DateTimePeriodCollection subtractAll(Collection<DateTimePeriod> periods) {
         return this.subtractAll(periods.toArray(new DateTimePeriod[0]));
     }
@@ -325,18 +340,41 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
         return !this.start().isAfter(period.start()) && !this.end().isBefore(period.end());
     }
 
+    /**
+     * Returns the start date and time of this period.
+     *
+     * @return the start LocalDateTime of this period
+     */
     public LocalDateTime start() {
         return start;
     }
 
+    /**
+     * Returns the end date and time of this period.
+     *
+     * @return the end LocalDateTime of this period
+     */
     public LocalDateTime end() {
         return end;
     }
 
+    /**
+     * Returns the precision level at which this period operates.
+     *
+     * @return the Precision enum value representing this period's precision level,
+     * @see Precision
+     */
     public Precision precision() {
         return precision;
     }
 
+    /**
+     * Calculates the duration of this period.
+     * The duration represents the total length of time between the start
+     * and end points, taking into account the period's precision.
+     *
+     * @return the Duration representing the length of this period.
+     */
     public Duration duration() {
         return duration;
     }
