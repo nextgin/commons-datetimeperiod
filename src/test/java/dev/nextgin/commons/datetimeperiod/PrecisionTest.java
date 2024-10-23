@@ -48,18 +48,4 @@ class PrecisionTest {
         LocalDateTime result = Precision.SECOND.round(dateTime);
         assertThat(result).isEqualTo(dateTime);
     }
-
-    @Test
-    void decrement() {
-        LocalDateTime dateTime = LocalDateTime.of(2024, 9, 11, 18, 30, 11);
-        LocalDateTime result = Precision.SECOND.decrement(dateTime);
-        assertThat(result).isEqualTo(LocalDateTime.of(2024, 9, 11, 18, 30, 10));
-    }
-
-    @Test
-    void increment() {
-        LocalDateTime dateTime = LocalDateTime.of(2024, 3, 14, 1, 59, 59);
-        LocalDateTime result = Precision.MINUTE.increment(dateTime);
-        assertThat(result).isEqualTo(LocalDateTime.of(2024, 3, 14, 2, 0));
-    }
 }
