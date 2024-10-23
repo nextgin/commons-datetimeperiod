@@ -10,8 +10,6 @@ This package helps you work with dates and times in a more flexible way. It lets
 `DateTimePeriod` objects are always immutable, ensuring that input dates remain unchanged and
 operations does not cause side effects.
 
-> This package is still a **work in progress**.
-
 ## Installation
 
 You can pull the dependency from the central Maven repositories:
