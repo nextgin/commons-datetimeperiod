@@ -190,6 +190,22 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
     }
 
     /**
+     * Calculates the union of all periods in this collection.
+     *
+     * @return A new collection containing non-overlapping periods that represent the union of all
+     * periods in this collection. Overlapping or adjacent periods are merged into single periods.
+     * @throws DateTimePeriodException if precision does not match
+     */
+    public DateTimePeriodCollection union() {
+        DateTimePeriod boundaries = this.boundaries();
+        if (boundaries == null) {
+            return DateTimePeriodCollection.empty();
+        }
+
+        return boundaries.subtractAll(boundaries.subtractAll(this));
+    }
+
+    /**
      * Returns the period at the specified position in this collection.
      *
      * @param index index of the element to return

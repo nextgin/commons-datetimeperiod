@@ -56,6 +56,28 @@ class DateTimePeriodCollectionTest {
         assertThat(result.get(2)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 10), LocalDate.of(2024, 1, 11)));
     }
 
+    @Test
+    void union() {
+        // Given
+        DateTimePeriodCollection collection = DateTimePeriodCollection.of(
+                DateTimePeriod.make(LocalDate.of(2024, 1, 30), LocalDate.of(2024, 1, 31)),
+                DateTimePeriod.make(LocalDate.of(2024, 1, 30), LocalDate.of(2024, 2, 2)),
+                DateTimePeriod.make(LocalDate.of(2024, 2, 4), LocalDate.of(2024, 2, 5)),
+                DateTimePeriod.make(LocalDate.of(2024, 2, 7), LocalDate.of(2024, 2, 9)),
+                DateTimePeriod.make(LocalDate.of(2024, 2, 12), LocalDate.of(2024, 2, 14)),
+                DateTimePeriod.make(LocalDate.of(2024, 2, 8), LocalDate.of(2024, 2, 13)));
+
+        // When
+        DateTimePeriodCollection result = collection.union();
+
+        // Then
+        assertThat(result).hasSize(3);
+        assertThat(result.get(0)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 1, 30), LocalDate.of(2024, 2, 2)));
+        assertThat(result.get(1)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 4), LocalDate.of(2024, 2, 5)));
+        assertThat(result.get(2)).isEqualTo(DateTimePeriod.make(LocalDate.of(2024, 2, 7), LocalDate.of(2024, 2, 14)));
+        assertThat(DateTimePeriodCollection.empty().union()).isEmpty();
+    }
+
     @Nested
     class OverlapAll {
 

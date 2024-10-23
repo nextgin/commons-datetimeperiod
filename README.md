@@ -490,7 +490,7 @@ Calculate the intersection between a collection and a period.
 ```java
 DateTimePeriodCollection collection = DateTimePeriodCollection.of(
         DateTimePeriod.make(LocalDate.parse("2024-01-05"), LocalDate.parse("2024-01-15")),
-        DateTimePeriod.make(LocalDate.parse("2024-01-°1"), LocalDate.parse("2024-01-10")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-01"), LocalDate.parse("2024-01-10")),
         DateTimePeriod.make(LocalDate.parse("2024-01-10"), LocalDate.parse("2024-01-15")),
         DateTimePeriod.make(LocalDate.parse("2024-02-01"), LocalDate.parse("2024-02-15")));
 
@@ -501,6 +501,23 @@ DateTimePeriod intersection = DateTimePeriod.make(
 
 DateTimePeriodCollection result = collection.intersect(intersection);
 // result represents [[2024-01-09, 2024-01-11], [2024-01-09, 2024-01-10], [2024-01-10, 2024-01-11]]
+```
+
+### `DateTimePeriodCollection union()`
+
+Calculate the union of all periods in a collection.
+
+![](./docs/images/collection-union.svg)
+
+```java
+DateTimePeriodCollection collection = DateTimePeriodCollection.of(
+        DateTimePeriod.make(LocalDate.parse("2024-01-01"), LocalDate.parse("2024-01-10")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-20"), LocalDate.parse("2024-01-25")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-05"), LocalDate.parse("2024-01-15")),
+        DateTimePeriod.make(LocalDate.parse("2024-01-23"), LocalDate.parse("2024-01-29")));
+
+DateTimePeriodCollection union = collection.union();
+// union represents [[2024-01-01, 2024-01-15], [2024-01-20, 2024-01-29]]
 ```
 
 ### Testing
