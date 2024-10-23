@@ -10,8 +10,6 @@ This package helps you work with dates and times in a more flexible way. It lets
 `DateTimePeriod` objects are always immutable, ensuring that input dates remain unchanged and
 operations does not cause side effects.
 
-> This package is still a **work in progress**.
-
 ## Installation
 
 You can pull the dependency from the central Maven repositories:
@@ -325,6 +323,27 @@ DateTimePeriodCollection subtractAll = a.subtractAll(b, c);
 // subtractAll represents [[2024-01-26, 2024-01-31]]
 ```
 
+### `DateTimePeriodCollection diffSymmetric(DateTimePeriod period)`
+
+The symmetric difference is all time ranges that belong to either one of the two periods, but not
+both.
+
+![](./docs/images/period-diff-symmetric.svg)
+
+```java
+DateTimePeriod a = DateTimePeriod.make(
+        LocalDate.parse("2024-01-15"),
+        LocalDate.parse("2024-01-31")
+);
+DateTimePeriod b = DateTimePeriod.make(
+        LocalDate.parse("2024-01-01"),
+        LocalDate.parse("2024-01-20")
+);
+
+DateTimePeriodCollection diffSymmetric = a.diffSymmetric(b);
+// subtractAll represents [[2024-01-01, 2024-01-14], [2024-01-21, 2024-01-31]]
+```
+
 ---
 
 The `DateTimePeriodCollection` methods:
@@ -495,7 +514,7 @@ DateTimePeriodCollection collection = DateTimePeriodCollection.of(
         DateTimePeriod.make(LocalDate.parse("2024-02-01"), LocalDate.parse("2024-02-15")));
 
 DateTimePeriod intersection = DateTimePeriod.make(
-        LocalDate.parse("2024-01-09"), 
+        LocalDate.parse("2024-01-09"),
         LocalDate.parse("2024-01-11")
 );
 
@@ -523,7 +542,7 @@ DateTimePeriodCollection union = collection.union();
 ### Testing
 
 ```bash
-./mvnw verify
+mvn verify
 ```
 
 ### Changelog
