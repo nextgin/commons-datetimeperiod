@@ -194,6 +194,7 @@ public class DateTimePeriodCollection implements Collection<DateTimePeriod> {
      *
      * @return A new collection containing non-overlapping periods that represent the union of all
      * periods in this collection. Overlapping or adjacent periods are merged into single periods.
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriodCollection union() {
         DateTimePeriod boundaries = this.boundaries();
