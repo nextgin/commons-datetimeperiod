@@ -288,6 +288,7 @@ public class DateTimePeriod implements Serializable, Comparable<DateTimePeriod> 
      *
      * @param period The period to calculate the symmetric difference with
      * @return A collection containing the periods that represent the symmetric difference
+     * @throws DateTimePeriodException if precision does not match
      */
     public DateTimePeriodCollection diffSymmetric(DateTimePeriod period) {
         this.ensurePrecisionMatches(period);
