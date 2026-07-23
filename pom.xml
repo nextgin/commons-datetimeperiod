@@ -41,7 +41,7 @@
     <jupiter.version>5.11.1</jupiter.version>
     <spotless.version>2.43.0</spotless.version>
     <jakarta-annotation.version>3.0.0</jakarta-annotation.version>
-    <assertj.version>3.26.3</assertj.version>
+    <assertj.version>3.27.7</assertj.version>
     <sonatype-central-publishing-maven-plugin.version>0.6.0</sonatype-central-publishing-maven-plugin.version>
     <sonatype-nexus-staging-plugin.version>1.7.0</sonatype-nexus-staging-plugin.version>
     <apache-maven-source-plugin.version>3.3.1</apache-maven-source-plugin.version>
